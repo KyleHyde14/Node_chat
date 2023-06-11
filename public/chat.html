@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <script defer src="app.js"></script>
+        <script src="https://kit.fontawesome.com/27011660c1.js" crossorigin="anonymous"></script>
+        <title>Chat App</title>
+    </head>
+    <body>
+        <div id="chat-title">
+            <img src="Bot.png"/>
+            <h4>Welcome to the chat</h4>
+        </div>
+        
+        <div id="chat-box">
+            <ul id="all-msg">
+                
+            </ul>
+            <div class="wall">
+                <input type="text" id="msg-input">
+                <button type="submit" class="btn btn-success" id="submit-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </body>
+</html>
