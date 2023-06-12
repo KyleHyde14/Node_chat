@@ -1,4 +1,4 @@
-const socket = io('https://Suso.onrender.com');
+const socket = io('https://suso.on')
 const list = document.getElementById('all-msg')
 const msgButton = document.getElementById('submit-btn')
 const input = document.getElementById('msg-input')
@@ -17,7 +17,7 @@ function printMsg(message){
         span.textContent = `${message.text}`
     }
     else{
-        span.textContent = `${message.user}: \n ${message.text}`
+        span.innerText = `${message.user}: \n \n${message.text}`
     }
     elem.appendChild(span)
     list.appendChild(elem)
