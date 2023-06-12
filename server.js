@@ -29,7 +29,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const userSchema = new mongoose.Schema({
-    name: {type: String}
+    name: {type: String},
+    pass: {type: String}
 })
 
 const msgSchema = new mongoose.Schema({
@@ -51,6 +52,34 @@ function obtainMgs(){
     }).exec()
     return dateArray
 }
+
+function encodePassword(password) {
+    let encodedPassword = '';
+  
+    for (let i = 0; i < password.length; i++) {
+      let char = password[i];
+  
+      // Verifica si el carácter está en el rango de letras mayúsculas o minúsculas o números
+      if (/[A-Za-z0-9]/.test(char)) {
+        let charCode = password.charCodeAt(i);
+        let offset;
+  
+        if (/[A-Za-z]/.test(char)) {
+          offset = char <= 'Z' ? 65 : 97;
+        } else {
+          offset = 48;
+        }
+  
+        let encodedCharCode = (charCode - offset + 13) % 26 + offset;
+        char = String.fromCharCode(encodedCharCode);
+      }
+  
+      encodedPassword += char;
+    }
+  
+    return encodedPassword;
+  }
+  
 
 io.on('connection', (socket) => {
     console.log('usuario conectado')
@@ -95,12 +124,16 @@ app.get('/', (req, res) => {
 
 app.post('/new_user', (req, res) => {
     const username = req.body.username.toLowerCase()
+    const password = req.body.password
     User.findOne({name: username}).exec().then(found => {
         if(found != null){
-            newUser = found
+            if(found.pass === encodePassword(password)){
+                newUser = found
+            } else{ res.send('Thats not the password. Try again.')}
         }else{
             newUser = new User({
-                name: username
+                name: username,
+                pass: encodePassword(password)
             })
             newUser.save().then(() => {
             })

@@ -10,26 +10,30 @@
         <title>Chat Login</title>
     </head>
     <body>
-        <div class="container">
-            <div class="row justify-content-center mt-5">
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-header">
-                    <h4 class="text-center"><img src="Bot.png"> Inicia sesión para chatear</h4>
-                    <h5>(No refresques la página si no quieres reiniciar la sesión)</h5>
+      <div class="container">
+        <div class="row justify-content-center mt-5">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="text-center"><img src="Bot.png"> Sing up or log in to chat!!</h4>
+                <h5>(Do not refresh the window or will be redirected here)</h5>
+              </div>
+              <div class="card-body">
+                <form id="login-form" method="post" action="/new_user">
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="user" name="username" minlength="4" placeholder="Your username must be at least 4 characters long" required>
                   </div>
-                  <div class="card-body">
-                    <form id="login-form" method="post" action="/new_user">
-                      <div class="form-group">
-                        <label for="username">Usuario</label>
-                        <input type="text" class="form-control" id="user" name="username" placeholder="Elige un nombre de usuario">
-                      </div>
-                      <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
-                    </form>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" minlength="8" placeholder="Your password must be at least 8 characters long" required>
                   </div>
-                </div>
+                  <button type="submit" class="btn btn-primary btn-block">Log in</button>
+                </form>
               </div>
             </div>
           </div>
+        </div>
+      </div>      
     </body>
-<html
+</html>

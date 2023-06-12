@@ -17,7 +17,7 @@ function printMsg(message){
         span.textContent = `${message.text}`
     }
     else{
-        span.innerText = `${message.user}: \n \n${message.text}`
+        span.innerText = `${message.user}: \n${message.text}`
     }
     elem.appendChild(span)
     list.appendChild(elem)
@@ -68,7 +68,7 @@ document.addEventListener('keydown', (event) => {
 window.addEventListener('unload', (event) => {
     event.preventDefault()
     
-    window.location.href = ''
+    window.location.href = '/'
 })
 
   
