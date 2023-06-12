@@ -65,7 +65,7 @@ document.addEventListener('keydown', (event) => {
     }
 })
 
-window.addEventListener('unload', (event) => {
+window.addEventListener('beforeunload', (event) => {
     event.preventDefault()
     
     window.location.href = '/'
