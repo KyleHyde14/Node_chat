@@ -1,4 +1,4 @@
-const socket = io('ws://localhost:8000')
+const socket = io('https://Suso.onrender.com');
 const list = document.getElementById('all-msg')
 const msgButton = document.getElementById('submit-btn')
 const input = document.getElementById('msg-input')
