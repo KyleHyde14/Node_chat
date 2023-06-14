@@ -65,8 +65,11 @@ document.addEventListener('keydown', (event) => {
     }
 })
 
-window.addEventListener('beforeunload', (event) => {
-    event.preventDefault()
+window.onbeforeunload = () => {
+    return 'Are you sure? if you do this you might have to re-log in.'
+}
+
+window.addEventListener('unload', (event) => {
     
     window.location.href = '/'
 })
