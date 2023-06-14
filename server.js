@@ -58,8 +58,7 @@ function encodePassword(password) {
   
     for (let i = 0; i < password.length; i++) {
       let char = password[i];
-  
-      // Verifica si el carácter está en el rango de letras mayúsculas o minúsculas o números
+      
       if (/[A-Za-z0-9]/.test(char)) {
         let charCode = password.charCodeAt(i);
         let offset;
