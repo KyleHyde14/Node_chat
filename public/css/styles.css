@@ -98,3 +98,20 @@ h5{
     left: 67%;
     font-size: 1.2rem;
 }
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 576px) {
+    #chat-box {
+      width: 90vw;
+    }
+  
+    #msg-input {
+      width: 60%;
+      left: 5%;
+      margin-left: 10%;
+    }
+  
+    #submit-btn {
+      margin-left: 10%
+    }
+  }
