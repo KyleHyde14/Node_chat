@@ -5,10 +5,6 @@ const input = document.getElementById('msg-input')
 let currentUser;
 let isConnected = false;
 
-function userSet(user){
-    return user
-}
-
 function printMsg(message){
     const elem = document.createElement('li')
     const span = document.createElement('span')
@@ -43,11 +39,11 @@ socket.on('createdMessage', message => {
 })
 
 socket.on('currentUser', username => {
-    if(typeof(currentUser) === 'undefined'){
-        currentUser = userSet(username)
+    if(!sessionStorage.getItem('currentUser')){
+        sessionStorage.setItem('currentUser', username)
+        currentUser = sessionStorage.getItem('currentUser')
     }
-    currentUser = currentUser
-    console.log(currentUser)
+    currentUser = sessionStorage.getItem('currentUser')
 })
 
 msgButton.addEventListener('click', () => {
