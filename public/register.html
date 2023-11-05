@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="css/registration.css">
+</head>
+<body>
+    <div class="card">
+        <h1>Sing up to start!</h1>
+        <form action="/register_user" method="POST">
+            <input type="text" placeholder=" Choose a Username"  name="username" required>
+            <input type="password" placeholder="Choose a Password"  name="password1" minlength="8" required>
+            <input type="password" placeholder="Repeat the Password"  name="password2" minlength="8" required>
+            <button type="submit">Register</button>
+            <h4>already have and account? <a href="/">login here</a></h4>
+        </form>
+    </div>
+</body>
+</html>
