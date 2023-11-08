@@ -1,7 +1,7 @@
 body, html{
     height: 100%;
     width: 100%;
-    background-color: rgb(215, 240, 249);
+    background-color: rgb(223, 142, 248);
     display: grid;
     place-items: center;
 }
@@ -20,7 +20,7 @@ h4{
 }
 
 a{
-    color: rgb(114, 153, 253);
+    color: rgb(195, 114, 253);
     text-decoration: none;
 }
 
@@ -33,7 +33,7 @@ a{
     height: 65vh;
     background-color: white;
     border-radius: 10px;
-    color: #555;
+    color: #333;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
@@ -62,7 +62,7 @@ button{
     width: 70%;
     margin-top: 10%; 
     border: none;
-    background-color: rgb(114, 153, 253);
+    background-color: rgb(195, 114, 253);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     color: white;
     font-size: 110%;

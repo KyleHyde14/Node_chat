@@ -28,8 +28,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const userSchema = new mongoose.Schema({
-    name: {type: String},
-    pass: {type: String}
+    name: {
+        type: String,
+        require: true
+    },
+    pass: {
+        type: String,
+        require: true
+    }
 })
 
 const msgSchema = new mongoose.Schema({
@@ -50,6 +56,10 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log(`usuario desconectado`)
+    })
+
+    socket.on('CreateNewMessage', (data) => {
+
     })
 })
 
@@ -88,6 +98,21 @@ app.post('/register_user', (req, res) => {
             })
         }
     })        
+})
+
+app.post('/login_user', (req, res) => {
+
+    User.findOne({name:req.body.username}).then(user => {
+        if (!user){
+            res.send('You have to register first to use this site!')
+        } else{
+            if (req.body.password === user.pass){
+                 res.redirect('/chat')
+            } else{
+                res.send('Wrong password buddy')
+            }
+        }
+    })
 })
 
 http.listen(8000, () => {

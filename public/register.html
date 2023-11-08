@@ -9,13 +9,27 @@
 <body>
     <div class="card">
         <h1>Sing up to start!</h1>
-        <form action="/register_user" method="POST">
-            <input type="text" placeholder=" Choose a Username"  name="username" required>
+        <form id="register_form" action="/register_user" method="POST">
+            <input id="username" type="text" placeholder=" Choose a Username"  name="username" required>
             <input type="password" placeholder="Choose a Password"  name="password1" minlength="8" required>
             <input type="password" placeholder="Repeat the Password"  name="password2" minlength="8" required>
-            <button type="submit">Register</button>
+            <button id="register_button" type="submit">Register</button>
             <h4>already have and account? <a href="/">login here</a></h4>
         </form>
     </div>
+
+    <script defer>
+        const username = document.getElementById('username')
+        const submit_button = document.getElementById('register_button')
+
+        submit_button.addEventListener('click', (event) => {
+            event.preventDefault()
+
+            sessionStorage.setItem('user', username.value)
+            
+            const form = document.getElementById('register_form')
+            form.submit()
+        })
+    </script>
 </body>
 </html>
