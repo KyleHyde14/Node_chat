@@ -1,5 +1,6 @@
 const express = require('express')
 require('dotenv').config()
+const session = require('express-session')
 const app = express()
 const path = require('path')
 const http = require('http').createServer(app)
@@ -17,13 +18,18 @@ mongoose.connect(URI, {
     useUnifiedTopology: true,
   })
     .then(() => {
-      console.log('Conexión exitosa a la base de datos');
+      console.log('Connected to database successfully');
     })
     .catch((error) => {
-      console.error('Error al conectar a la base de datos:', error);
+      console.error('Error connecting to database:', error);
     });
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: process.env['SESSION_KEY'],
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -52,14 +58,25 @@ const Message = mongoose.model('Message', msgSchema)
   
 
 io.on('connection', (socket) => {
-    console.log('usuario conectado')
+    console.log('User joined the chat');
 
     socket.on('disconnect', () => {
-        console.log(`usuario desconectado`)
+        console.log(`A user disconected from chat`)
     })
 
     socket.on('CreateNewMessage', (data) => {
 
+        const newMessage = new Message({
+            text: data.text,
+            date: new Date().getTime(),
+            user: data.user
+        })
+
+        newMessage.save().then(() => {
+            socket.emit('messageCreated')
+        }).catch(err => {
+            console.log(err)
+        })
     })
 })
 
@@ -68,7 +85,11 @@ app.get('/', (req, res) => {
 })
 
 app.get('/chat', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'chat.html'))
+    if (req.session.authenticated){
+        res.sendFile(path.join(__dirname, 'public', 'chat.html'))
+    } else{
+        res.send('You must login to enter the chat')
+    }
 })
 
 app.get('/register', (req, res) => {
@@ -90,6 +111,7 @@ app.post('/register_user', (req, res) => {
             })
             
             newUser.save().then(() => {
+                req.session.authenticated = true
                 console.log(`${newUser.name} registered as a new user`)
                 res.redirect('/chat')
             }).catch((err) => {
@@ -107,7 +129,8 @@ app.post('/login_user', (req, res) => {
             res.send('You have to register first to use this site!')
         } else{
             if (req.body.password === user.pass){
-                 res.redirect('/chat')
+                req.session.authenticated = true
+                res.redirect('/chat')
             } else{
                 res.send('Wrong password buddy')
             }
