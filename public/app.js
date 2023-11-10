@@ -3,11 +3,42 @@ const messages_list = document.getElementById('messages')
 const submit = document.getElementById('send_button')
 const message_box = document.getElementById('message_box')
 
-socket.on('messageCreated', () => {
-    console.log('Message created in database')
+let currentUser = sessionStorage.getItem('user')
+
+socket.emit('getOldMessages')
+
+socket.on('messagesReady', messages => {
+    messages.forEach(elem =>  {
+        if (elem.user == currentUser){
+            let newMessage = document.createElement('li')
+            newMessage.className += 'right'
+            newMessage.innerHTML = elem.text
+            messages_list.appendChild(newMessage)
+        } else {
+            let newMessage = document.createElement('li')
+            newMessage.className += 'left'
+            newMessage.innerHTML = elem.user + ': ' + elem.text
+            messages_list.appendChild(newMessage)
+        }
+    })
 })
 
-let currentUser = sessionStorage.getItem('user')
+socket.on('messageCreated', recent_message => {
+
+        if (recent_message.user == currentUser){
+            let newMessage = document.createElement('li')
+            newMessage.className += 'right'
+            newMessage.innerHTML = recent_message.text
+            messages_list.appendChild(newMessage)
+        } else {
+            let newMessage = document.createElement('li')
+            newMessage.className += 'left'
+            newMessage.innerHTML = recent_message.user + ': ' + recent_message.text
+            messages_list.appendChild(newMessage)
+        }
+
+        messages_list.scrollTop = messages_list.scrollHeight
+})
 
 submit.addEventListener('click', (event) => {
     event.preventDefault()
@@ -18,11 +49,6 @@ submit.addEventListener('click', (event) => {
     }
 
     socket.emit('CreateNewMessage', data)
-    
-
-    let newMessage = document.createElement('li')
-    newMessage.innerHTML = currentUser + ': ' + message_box.value
-    messages_list.appendChild(newMessage)
     message_box.value = ''
 
 })

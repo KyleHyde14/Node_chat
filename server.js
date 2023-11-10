@@ -73,7 +73,15 @@ io.on('connection', (socket) => {
         })
 
         newMessage.save().then(() => {
-            socket.emit('messageCreated')
+            io.emit('messageCreated', newMessage)
+        }).catch(err => {
+            console.log(err)
+        })
+    })
+    socket.on('getOldMessages', () => {
+        const limit = new Date(Date.now() - 24 * 60 * 60 * 1000)
+        Message.find({date: {$gte: limit}}).then(messages => {
+            socket.emit('messagesReady', messages)
         }).catch(err => {
             console.log(err)
         })
