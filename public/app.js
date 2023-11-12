@@ -2,8 +2,13 @@ const socket = io()
 const messages_list = document.getElementById('messages')
 const submit = document.getElementById('send_button')
 const message_box = document.getElementById('message_box')
+const logout_button = document.getElementById('logout_button')
 
 let currentUser = sessionStorage.getItem('user')
+
+if(!currentUser){
+    window.location.href = '/'
+}
 
 socket.emit('getOldMessages')
 
@@ -53,3 +58,10 @@ submit.addEventListener('click', (event) => {
 
 })
 
+logout_button.addEventListener('click', (event) => {
+    event.preventDefault()
+
+    sessionStorage.removeItem('user')
+
+    window.location.href = '/logout'
+})

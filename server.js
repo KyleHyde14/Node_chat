@@ -45,16 +45,33 @@ const userSchema = new mongoose.Schema({
 })
 
 const msgSchema = new mongoose.Schema({
-    text: {type: String},
+    text: {
+        type: String,
+        require: true
+    },
     date: {
         type: Date,
         default: new Date().getTime()
     },
-    user: {type: String}
+    user: {
+        type: String,
+        require: true
+    }
 })
 
 const User = mongoose.model('User', userSchema)
 const Message = mongoose.model('Message', msgSchema)
+
+function encodePass(text) {
+    let hash = 0;
+  
+    for (let i = 0; i < text.length; i++) {
+      const char = text.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+    }
+  
+    return hash.toString();
+  }
   
 
 io.on('connection', (socket) => {
@@ -66,18 +83,24 @@ io.on('connection', (socket) => {
 
     socket.on('CreateNewMessage', (data) => {
 
-        const newMessage = new Message({
-            text: data.text,
-            date: new Date().getTime(),
-            user: data.user
-        })
-
-        newMessage.save().then(() => {
-            io.emit('messageCreated', newMessage)
-        }).catch(err => {
-            console.log(err)
-        })
+        if (!data.user || !data.text){
+            socket.disconnect(true)
+        } else {
+            const newMessage = new Message({
+                text: data.text,
+                date: new Date().getTime(),
+                user: data.user
+            })
+    
+            newMessage.save().then(() => {
+                io.emit('messageCreated', newMessage)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
     })
+
+        
     socket.on('getOldMessages', () => {
         const limit = new Date(Date.now() - 24 * 60 * 60 * 1000)
         Message.find({date: {$gte: limit}}).then(messages => {
@@ -115,7 +138,7 @@ app.post('/register_user', (req, res) => {
         } else {
             const newUser = new User({
                 name: username, 
-                pass: password
+                pass: encodePass(password)
             })
             
             newUser.save().then(() => {
@@ -136,7 +159,7 @@ app.post('/login_user', (req, res) => {
         if (!user){
             res.send('You have to register first to use this site!')
         } else{
-            if (req.body.password === user.pass){
+            if (encodePass(req.body.password) === user.pass){
                 req.session.authenticated = true
                 res.redirect('/chat')
             } else{
@@ -144,6 +167,15 @@ app.post('/login_user', (req, res) => {
             }
         }
     })
+})
+
+app.get('/logout', (req, res) => {
+    if(req.session.authenticated){
+        req.session.authenticated = false
+        res.sendFile(path.join(__dirname, 'public', 'logout.html'))
+    } else{
+        res.redirect('/')
+    }
 })
 
 http.listen(8000, () => {

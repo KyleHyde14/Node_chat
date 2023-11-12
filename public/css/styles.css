@@ -73,7 +73,7 @@ li{
 #message_box{
     left: 5%;
     width: 70%;
-    text-indent: 10%;
+    text-indent: 5%;
 } 
 
 #send_button{
@@ -81,6 +81,22 @@ li{
     width: 15%;
     background: linear-gradient(90deg, #405DE6, #5851DB, #833AB4); 
     color: #fff;
+}
+
+#logout_button{
+    width: 10%;
+    height: 5%;
+    position: fixed;
+    top: 5%;
+    left: 5%;
+    background: linear-gradient(90deg, #405DE6, #5851DB, #833AB4);
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
 }
 
 

@@ -10,8 +10,8 @@
     <div class="card">
         <h1>Account login</h1>
         <form action="/login_user" method="POST" id="login_form">
-            <input id="username" type="text" placeholder="Username" name="username" required>
-            <input type="password" placeholder="Password" name="password" required>
+            <input id="username" type="text" placeholder="Username" name="username" autocomplete="off" required>
+            <input type="password" placeholder="Password" name="password" autocomplete="off" required>
             <button id="login_button" type="submit">Login</button>
             <h4>Do you need an account? <a href="register">Sign up</a></h4>
         </form>
@@ -19,9 +19,9 @@
     </div>
     <script defer>
         const username = document.getElementById('username')
-        const submit_button = document.getElementById('login_button')
+        const login_form = document.getElementById('login_form')
 
-        submit_button.addEventListener('click', (event) => {
+        login_form.addEventListener('submit', (event) => {
             event.preventDefault()
 
             sessionStorage.setItem('user', username.value)
