@@ -84,8 +84,8 @@ li{
 }
 
 #logout_button, #my_messages{
-    width: 10%;
-    height: 5%;
+    width: fit-content;
+    padding: 1% 2%;
     position: fixed;
     top: 5%;
     background: linear-gradient(90deg, #405DE6, #5851DB, #833AB4);
@@ -106,4 +106,29 @@ li{
     left: 5%;
 }
 
+/* Media Query para pantallas pequeñas y medianas */
+@media only screen and (max-width: 768px) {
+    #chat {
+        width: 90%;
+    }
 
+    ul li {
+        max-width: 100%;
+    }
+
+    #logout_button,
+    #my_messages {
+        width: fit-content;
+        padding: 1% 2%;
+        position: absolute;
+        top: 93%;
+    }
+
+    #logout_button{
+        left: 10%;
+    }
+
+    #my_messages{
+        right: 10%;
+    }
+}
