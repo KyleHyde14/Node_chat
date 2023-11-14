@@ -71,3 +71,15 @@ button{
 button:hover{
     cursor: pointer;
 }
+
+@media screen and (max-width: 600px) {
+    .card {
+        width: 90%;
+        max-width: none;
+        height: 90%;
+    }
+
+    input, button {
+        width: 90%;
+    }
+}
