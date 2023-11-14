@@ -128,7 +128,7 @@ app.get('/register', (req, res) => {
 
 app.post('/register_user', (req, res) => {
     const password = req.body.password1
-    const username = req.body.username.toLowerCase()
+    const username = req.body.username
 
     User.findOne({name:username}).then(found => {
         if (found){
@@ -154,9 +154,7 @@ app.post('/register_user', (req, res) => {
 
 app.post('/login_user', (req, res) => {
 
-    let loginUser = req.body.username.toLowerCase()
-
-    User.findOne({name:loginUser}).then(user => {
+    User.findOne({name:req.body.username}).then(user => {
         if (!user){
             res.send('You have to register first to use this site!')
         } else{
