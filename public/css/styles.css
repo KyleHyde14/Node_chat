@@ -83,12 +83,11 @@ li{
     color: #fff;
 }
 
-#logout_button{
+#logout_button, #my_messages{
     width: 10%;
     height: 5%;
     position: fixed;
     top: 5%;
-    left: 5%;
     background: linear-gradient(90deg, #405DE6, #5851DB, #833AB4);
     border-radius: 10px;
     border: none;
@@ -97,6 +96,14 @@ li{
     display: grid;
     place-items: center;
     text-decoration: none;
+}
+
+#my_messages{
+    right: 5%;
+}
+
+#logout_button{
+    left: 5%;
 }
 
 

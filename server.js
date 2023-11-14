@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
 
     socket.on('CreateNewMessage', (data) => {
 
-        if (!data.user || !data.text){
+        if (!data.user){
             socket.disconnect(true)
         } else {
             const newMessage = new Message({
@@ -99,8 +99,7 @@ io.on('connection', (socket) => {
             })
         }
     })
-
-        
+    
     socket.on('getOldMessages', () => {
         const limit = new Date(Date.now() - 24 * 60 * 60 * 1000)
         Message.find({date: {$gte: limit}}).then(messages => {
@@ -174,6 +173,28 @@ app.get('/logout', (req, res) => {
         req.session.authenticated = false
         res.sendFile(path.join(__dirname, 'public', 'logout.html'))
     } else{
+        res.redirect('/')
+    }
+})
+
+app.get('/my_messages/:user', (req,res) => {
+    let check = req.params['user']
+    if(req.session.authenticated){
+        if(check == 'all'){
+            Message.find().select('-_id -__v').then(found => {
+                res.json(found)
+            }).catch(err => {
+                console.log(err)
+            })
+        } else if(check != 'all'){
+            Message.find({'user': check}).select('-_id -__v').then(found => {
+                res.json(found)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    } else {
+        req.session.authenticated = false
         res.redirect('/')
     }
 })
